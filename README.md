@@ -43,3 +43,12 @@ component. Other possible arguments include
 `ttt2.html`, `ttt3.html` - see the `switch` in 
 [OnPageLoad](https://github.com/jtulach/netbeans-html4j/blob/react4jdemo/src/main/java/cz/xelfi/demo/react4jdemo/OnPageLoad.java)
 for a full list.
+
+# Integration with existing React project
+
+It is possible to use generated javascript in existing React project:
+```
+./gradlew bck2brwsrAot
+cd react-demo
+npm start
+```
