@@ -1,6 +1,7 @@
 include 'desktop'
 include 'api'
 include 'web'
+include 'react-demo'
 //include 'ios'
 //include 'app'
 

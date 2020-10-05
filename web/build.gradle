@@ -39,3 +39,9 @@ bck2brwsrPages.from {
     fileTree("${commonProject.projectDir}/src/main/java/cz/xelfi/demo/react4jdemo")
 }
 bck2brwsrAot.dependsOn(bck2brwsrPages)
+
+task copyBuiltJS(type: Copy) {
+    from '/build/web/*.js' into '../netbeans-react-demo/src/';
+}
+
+bck2brwsrAot.dependsOn(copyBuiltJS)
