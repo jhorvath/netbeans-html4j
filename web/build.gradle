@@ -42,8 +42,8 @@ bck2brwsrAot.dependsOn(bck2brwsrPages)
 
 task copyBuiltJS(type: Copy) {
     from "$buildDir/web"
-    include "*.js"
-    into "../react-demo/src/public"
+    include "**/*.js"
+    into "${parent.rootDir}/react-demo/public"
 }
-
+copyBuiltJS.onlyIf = { true }
 bck2brwsrAot.dependsOn(copyBuiltJS)
