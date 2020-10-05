@@ -46,4 +46,12 @@ task copyBuiltJS(type: Copy) {
     into "${parent.rootDir}/react-demo/public"
 }
 copyBuiltJS.onlyIf = { true }
-bck2brwsrAot.dependsOn(copyBuiltJS)
+
+bck2brwsrAot.doLast {
+    copyBuiltJS.copy()
+}
+//task("bck2brwsrAot") {
+//    doLast {
+//        tasks.copyBuiltJS.execute()
+//    }
+//}
