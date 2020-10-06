@@ -2,6 +2,7 @@ include 'desktop'
 include 'api'
 include 'web'
 include 'react-demo'
+include 'micronaut-react'
 //include 'ios'
 //include 'app'
 

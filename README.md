@@ -50,5 +50,6 @@ It is possible to use generated javascript in existing React project:
 ```
 ./gradlew bck2brwsrAot
 cd react-demo
+npm install
 npm start
 ```

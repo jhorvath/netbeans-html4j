@@ -7,6 +7,9 @@ import * as serviceWorker from './serviceWorker';
   var vm = window.bck2brwsr('main.js');
   vm.loadClass('cz.xelfi.demo.react4jdemo.BrowserMain', function (mainClass) {
     mainClass.invoke('main', ['ttt1']);
+
+    console.log(window.Form);
+
     ReactDOM.render(
       <React.StrictMode>
         <App />

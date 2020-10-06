@@ -38,6 +38,7 @@ public final class OnPageLoad {
                 break;
             case "ttt1":
                 TicTacToe1.onPageLoad();
+                TriangleDemo.onPageLoad();
                 code = "TicTacToe1.java";
                 break;
             case "ttt2":

@@ -50,8 +50,3 @@ copyBuiltJS.onlyIf = { true }
 bck2brwsrAot.doLast {
     copyBuiltJS.copy()
 }
-//task("bck2brwsrAot") {
-//    doLast {
-//        tasks.copyBuiltJS.execute()
-//    }
-//}

@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Game from './Game';
+import Form from './Form';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
           <Game/>
+          <Form/>
         </p>
         <a
           className="App-link"
