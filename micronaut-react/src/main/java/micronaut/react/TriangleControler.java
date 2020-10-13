@@ -1,5 +1,7 @@
 package micronaut.react;
 
+import io.micronaut.http.MediaType;
+import io.micronaut.http.annotation.Consumes;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
@@ -31,13 +33,10 @@ public class TriangleControler {
     public Collection<Triangle> triangles() {
         return triangles;
     }
-    @Post
-    public void addTriangle(@Valid Triangle triangle) {
-//        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-//        Validator validator = factory.getValidator();
-//        Set<ConstraintViolation<Triangle>> violations = validator.validate(triangle);
 
-//        LOG.info("Violations {}", violations);
+    @Post
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void addTriangle(@Valid Triangle triangle) {
         triangles.add(triangle);
     }
 

@@ -17,6 +17,7 @@ import java.util.StringJoiner;
  * @author honza
  */
 @ValidTriangle
+@Introspected
 public class Triangle {
 
     @Positive(message = "Side must be greater than zero")
@@ -28,6 +29,10 @@ public class Triangle {
     @Positive(message = "Hypotenuse must be greater than zero")
     Integer c;
 
+    public Triangle() {
+    }
+
+    
     public Triangle(@Positive(message = "Side must be greater than zero") Integer a,
                     @Positive(message = "Side must be greater than zero") Integer b,
                     @Positive(message = "Hypotenuse must be greater than zero") Integer c) {
