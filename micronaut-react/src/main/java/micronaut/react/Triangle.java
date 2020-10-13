@@ -55,10 +55,6 @@ public class Triangle {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", Triangle.class.getSimpleName() + "[", "]")
-                .add("a=" + a)
-                .add("b=" + b)
-                .add("c=" + c)
-                .toString();
+        return "Triangle{" + "a=" + a + ", b=" + b + ", c=" + c + '}';
     }
 }
