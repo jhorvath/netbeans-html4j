@@ -19,6 +19,7 @@ configurations {
 
 dependencies {
     compile project(":api")
+    compile project(":shared")
     annotationProcessor(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     annotationProcessor("io.micronaut:micronaut-inject-java")
     annotationProcessor("io.micronaut:micronaut-validation")

@@ -1,4 +1,4 @@
-package micronaut.react;
+package cz.xelfi.micro.shared;
 
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.validation.validator.constraints.ConstraintValidator;

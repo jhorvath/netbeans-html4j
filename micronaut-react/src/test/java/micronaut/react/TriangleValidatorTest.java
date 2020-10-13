@@ -1,5 +1,7 @@
 package micronaut.react;
 
+import cz.xelfi.micro.shared.TriangleValidator;
+import cz.xelfi.micro.shared.Triangle;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

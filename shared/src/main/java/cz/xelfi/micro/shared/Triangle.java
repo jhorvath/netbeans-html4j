@@ -3,14 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package micronaut.react;
+package cz.xelfi.micro.shared;
 
 import io.micronaut.core.annotation.Introspected;
-import org.slf4j.LoggerFactory;
-
-import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
-import java.util.StringJoiner;
 
 /**
  *

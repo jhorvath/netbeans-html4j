@@ -1,5 +1,6 @@
 package micronaut.react;
 
+import cz.xelfi.micro.shared.Triangle;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Consumes;
 import io.micronaut.http.annotation.Controller;

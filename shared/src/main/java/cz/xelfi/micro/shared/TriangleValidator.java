@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package micronaut.react;
+package cz.xelfi.micro.shared;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
