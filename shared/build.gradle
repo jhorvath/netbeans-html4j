@@ -11,9 +11,9 @@ apply plugin: 'java'
 apply plugin: 'html4j'
 apply plugin: 'org.openjfx.javafxplugin'
 
-compileJava {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+java {
+    sourceCompatibility = "VERSION_1_8"
+    targetCompatibility = "VERSION_1_8"
 }
 
 javafx {
@@ -40,6 +40,8 @@ dependencies {
     annotationProcessor "org.netbeans.api:org-openide-util-lookup:RELEASE120-u1"
     testCompile "com.dukescript.api:junit-browser-runner:1.0"
     testRuntime "org.netbeans.html:net.java.html.boot.fx:1.7"
+    testRuntime "org.apidesign.bck2brwsr:launcher.http:0.32"
+    testRuntime "org.apidesign.bck2brwsr:ko-bck2brwsr:0.32:bck2brwsr"
 }
 
 task copyReactResources(type: Copy) {
