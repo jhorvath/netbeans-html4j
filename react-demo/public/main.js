@@ -97,58 +97,5 @@ c['main__V_3Ljava_lang_String_2'] = m;
 vm.cz_xelfi_demo_react4jdemo_BrowserMain = registerClass(exports,'cz_xelfi_demo_react4jdemo_BrowserMain',cz_xelfi_demo_react4jdemo_BrowserMain);
 
 vm.cz_xelfi_demo_react4jdemo_OnPageLoad = link('cz/xelfi/demo/react4jdemo/OnPageLoad', function(f) { vm.cz_xelfi_demo_react4jdemo_OnPageLoad =  f; });
-
-function cz_xelfi_demo_react4jdemo_BrowserMain() {
-  var m;
-  var CLS = cz_xelfi_demo_react4jdemo_BrowserMain;
-  if (!CLS.$class) {
-    var pp = vm.java_lang_Object(true);
-    var p = CLS.prototype = pp;
-    var c = p;
-    var sprcls = pp.constructor.$class;
-    m = CLS.cons__V = function() {
-  var  lcA0 = this;
-return;
-
-};
-CLS['cons__V'] = m;
-
-    m.access = 0;
-    m.cls = CLS;
-    m = c.main__V_3Ljava_lang_String_2 = function(lcA0) {
-(refs_cz_xelfi_demo_react4jdemo_OnPageLoad || (refs_cz_xelfi_demo_react4jdemo_OnPageLoad = vm.cz_xelfi_demo_react4jdemo_OnPageLoad(false)))['main__V_3Ljava_lang_String_2'](lcA0);
-return;
-
-};
-c['main__V_3Ljava_lang_String_2'] = m;
-
-    m.access = 137;
-    m.cls = CLS;
-    c.constructor = CLS;
-    function cz_xelfi_demo_react4jdemo_BrowserMainfillInstOf(x) {
-        Object.defineProperty(x, '$instOf_cz_xelfi_demo_react4jdemo_BrowserMain', { value : true });
-    }
-    if (!c.hasOwnProperty('fillInstOf')) Object.defineProperty(c, 'fillInstOf', { value: cz_xelfi_demo_react4jdemo_BrowserMainfillInstOf });
-    cz_xelfi_demo_react4jdemo_BrowserMainfillInstOf(c);
-    CLS.$class = 'temp';
-    CLS.$class = vm.java_lang_Class(true);
-    CLS.$class.jvmName = 'cz/xelfi/demo/react4jdemo/BrowserMain';
-    CLS.$class.superclass = sprcls;
-    CLS.$class.interfaces = function() { return [
-    ]; };
-    CLS.$class.access = 48;
-    CLS.$class.cnstr = CLS;
-    var refs_cz_xelfi_demo_react4jdemo_OnPageLoad;
-  }
-  if (arguments.length === 0) {
-    if (!(this instanceof CLS)) {
-      return new CLS();
-    }
-    return this;
-  }
-  return arguments[0] ? new CLS() : CLS.prototype;
-};
-vm.cz_xelfi_demo_react4jdemo_BrowserMain = registerClass(exports,'cz_xelfi_demo_react4jdemo_BrowserMain',cz_xelfi_demo_react4jdemo_BrowserMain);
-
   exports['registerResource']('META-INF/MANIFEST.MF', 'TWFuaWZlc3QtVmVyc2lvbjogMS4wDQoNCg==');
 });
