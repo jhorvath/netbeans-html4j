@@ -42,6 +42,7 @@ sourceCompatibility = '1.8'
 
 dependencies {
     compile project(":api")
+//    compile project(":shared")
 //    compile project(":micronaut-react")
     compile "org.netbeans.html:net.java.html.boot:1.7"
     compile "org.netbeans.html:net.java.html.json:1.7"
