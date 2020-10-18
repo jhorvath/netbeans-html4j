@@ -107,8 +107,8 @@ public class TicTacToe1 {
     public static void onPageLoad() {
         React.register("Square", TicTacToe1Square::new);
         React.register("Board", TicTacToe1Board::new);
-//        React.register("Game", TicTacToe1Game::new);
-//        React.render("Game", "root");
+        React.register("Game", TicTacToe1Game::new);
+        React.render("Game", "root");
     }
 
 }

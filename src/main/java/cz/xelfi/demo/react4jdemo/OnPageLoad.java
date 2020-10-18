@@ -38,7 +38,6 @@ public final class OnPageLoad {
                 break;
             case "ttt1":
                 TicTacToe1.onPageLoad();
-                TriangleDemo.onPageLoad();
                 code = "TicTacToe1.java";
                 break;
             case "ttt2":
@@ -49,6 +48,11 @@ public final class OnPageLoad {
                 TicTacToe3.onPageLoad();
                 code = "TicTacToe3.java";
                 break;
+            case "triangles":
+                TriangleDemo.onPageLoad();
+                Triangles.onPageLoad();
+                code = "Triangles.java";
+                break;    
             default:
                 LikeButton.onPageLoad();
                 code = "LikeButton.java";
