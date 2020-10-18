@@ -1,3 +1,6 @@
 micronaut:
   application:
     name: micronautReact
+  server:
+    cors:
+      enabled: true
