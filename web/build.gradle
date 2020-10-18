@@ -40,11 +40,19 @@ bck2brwsrPages.from {
 }
 bck2brwsrAot.dependsOn(bck2brwsrPages)
 
+task cleanJS(type: Delete) {
+    delete "${parent.rootDir}/react-demo/public/main.js",
+            "${parent.rootDir}/react-demo/public/bck2brwsr.js",
+            fileTree("${parent.rootDir}/react-demo/public/lib")
+}
+
 task copyBuiltJS(type: Copy) {
     from "$buildDir/web"
     include "**/*.js"
     into "${parent.rootDir}/react-demo/public"
 }
+
+copyBuiltJS.dependsOn(cleanJS)
 copyBuiltJS.onlyIf = { true }
 
 bck2brwsrAot.doLast {
