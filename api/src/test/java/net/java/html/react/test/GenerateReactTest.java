@@ -74,7 +74,7 @@ public class GenerateReactTest {
             "<input value='{i}' onChange='{ch}'/>"
         )
         protected abstract React.Element input(int i, Runnable ch);
-    
+ 
         @Render(
             "<div>{this.input(i, null)}</div>"
         )

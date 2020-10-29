@@ -97,5 +97,51 @@ c['main__V_3Ljava_lang_String_2'] = m;
 vm.cz_xelfi_demo_react4jdemo_BrowserMain = registerClass(exports,'cz_xelfi_demo_react4jdemo_BrowserMain',cz_xelfi_demo_react4jdemo_BrowserMain);
 
 vm.cz_xelfi_demo_react4jdemo_OnPageLoad = link('cz/xelfi/demo/react4jdemo/OnPageLoad', function(f) { vm.cz_xelfi_demo_react4jdemo_OnPageLoad =  f; });
+
+function java_util_function_Consumer() {
+  var m;
+  var CLS = java_util_function_Consumer;
+  if (!CLS.$class) {
+    var pp = vm.java_lang_Object(true);
+    var p = CLS.prototype = pp;
+    var c = p;
+    var sprcls = pp.constructor.$class;
+    m = c.accept__VLjava_lang_Object_2 = function(lcA1) {
+};
+c['accept__VLjava_lang_Object_2'] = m;
+
+    m.access = 1025;
+    m.cls = CLS;
+    c.constructor = CLS;
+    function java_util_function_ConsumerfillInstOf(x) {
+        Object.defineProperty(x, '$instOf_java_util_function_Consumer', { value : true });
+    }
+    if (!c.hasOwnProperty('fillInstOf')) Object.defineProperty(c, 'fillInstOf', { value: java_util_function_ConsumerfillInstOf });
+    java_util_function_ConsumerfillInstOf(c);
+    CLS.$class = 'temp';
+    CLS.$class = vm.java_lang_Class(true);
+    CLS.$class.jvmName = 'java/util/function/Consumer';
+    CLS.$class.superclass = sprcls;
+    CLS.$class.interfaces = function() { return [
+    ]; };
+    CLS.$class.access = 1537;
+    CLS.$class.cnstr = CLS;
+    CLS.$class.anno = {"Ljava/lang/FunctionalInterface;" : {
+
+}
+
+    };
+  }
+  if (arguments.length === 0) {
+    if (!(this instanceof CLS)) {
+      return new CLS();
+    }
+    return this;
+  }
+  return arguments[0] ? new CLS() : CLS.prototype;
+};
+vm.java_util_function_Consumer = registerClass(exports,'java_util_function_Consumer',java_util_function_Consumer);
+
+vm.java_lang_FunctionalInterface = link('java/lang/FunctionalInterface', function(f) { vm.java_lang_FunctionalInterface =  f; });
   exports['registerResource']('META-INF/MANIFEST.MF', 'TWFuaWZlc3QtVmVyc2lvbjogMS4wDQoNCg==');
 });
