@@ -29,7 +29,11 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Completion;
 import javax.annotation.processing.Processor;
@@ -59,8 +63,20 @@ import net.java.html.react.Render;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.Name;
 import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.ArrayType;
+import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.ErrorType;
+import javax.lang.model.type.ExecutableType;
+import javax.lang.model.type.IntersectionType;
+import javax.lang.model.type.NoType;
+import javax.lang.model.type.NullType;
+import javax.lang.model.type.PrimitiveType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
+import javax.lang.model.type.TypeVariable;
+import javax.lang.model.type.TypeVisitor;
+import javax.lang.model.type.UnionType;
+import javax.lang.model.type.WildcardType;
 import javax.tools.JavaFileObject;
 
 import static org.netbeans.html.react.JavaSxProcessor.Token.Type.TEXT;
@@ -244,7 +260,7 @@ public class JavaSxProcessor extends AbstractProcessor {
                 continue;
             }
             try {
-                generateComponent(entry.getKey(), pkg, cReg.name(), entry.getValue());
+                generateComponent(entry.getKey(), pkg, cReg.name(), entry.getValue(), expectedErrors);
             } catch (IOException ex) {
                 emitError(entry.getKey(), expectedErrors, ex.getMessage() + " while generating " + cReg.name());
             }
@@ -296,13 +312,13 @@ public class JavaSxProcessor extends AbstractProcessor {
         return pkg.getQualifiedName().toString();
     }
 
-    private void printNodes(String indent, Node node, Set<String> variables, StringBuilder sb) {
+    private void printNodes(TypeElement clazz, ExecutableElement method, String indent, Node node, Set<String> variables, StringBuilder sb, Set<Element> expectedErrors) {
         if (node instanceof Text) {
             String text = node.getTextContent();
             text = text.replaceAll("\\\\", "\\\\");
             text = text.replaceAll("\\\n", "\\\\n");
 
-            List<Token> tokens = eliminateVariables1(text);
+            List<Token> tokens = eliminateVariables1(clazz, text);
             StringBuffer tmp = new StringBuffer();
             boolean comma = false;
             for(Token token : tokens) {
@@ -334,6 +350,8 @@ public class JavaSxProcessor extends AbstractProcessor {
                         }
                         sb.append(token.value);
                         break;
+                    case MISSING:
+                        emitError(method, expectedErrors, "referenced method is not found " + token.value);
                     default:
                 }
                 tmp = new StringBuffer(tmp.toString().trim());
@@ -372,7 +390,7 @@ public class JavaSxProcessor extends AbstractProcessor {
             final int len = children.getLength();
             for (int i = 0; i < len; i++) {
                 sb.append("\n");
-                printNodes("  " + indent, children.item(i), variables, sb);
+                printNodes(clazz, method, "  " + indent, children.item(i), variables, sb, expectedErrors);
                 if (i < len - 1) {
                     sb.append(", ");
                 }
@@ -393,11 +411,84 @@ public class JavaSxProcessor extends AbstractProcessor {
         enum Type {
             TEXT,
             VARIABLE,
-            CALL
+            CALL, 
+            MISSING
+        }
+    }
+    
+    private class ElementVisitor implements TypeVisitor<Boolean, String> {
+        @Override
+        public Boolean visit(TypeMirror t, String p) {
+            return Boolean.FALSE;
+        }
+        @Override
+        public Boolean visitPrimitive(PrimitiveType t, String p) {
+            return Boolean.FALSE;
+        }
+        @Override
+        public Boolean visitNull(NullType t, String p) {
+            return Boolean.FALSE;
+        }
+        @Override
+        public Boolean visitArray(ArrayType t, String p) {
+            return Boolean.FALSE;
+        }
+        @Override
+        public Boolean visitDeclared(DeclaredType t, String p) {
+            return t.asElement().toString().equals(p);
+        }
+        @Override
+        public Boolean visitError(ErrorType t, String p) {
+            return Boolean.FALSE;
+        }
+        @Override
+        public Boolean visitTypeVariable(TypeVariable t, String p) {
+            return Boolean.FALSE;
+        }
+        @Override
+        public Boolean visitWildcard(WildcardType t, String p) {
+            return Boolean.FALSE;
+        }
+        @Override
+        public Boolean visitExecutable(ExecutableType t, String p) {
+            return Boolean.FALSE;
+        }
+        @Override
+        public Boolean visitNoType(NoType t, String p) {
+            return Boolean.FALSE;
+        }
+        @Override
+        public Boolean visitUnknown(TypeMirror t, String p) {
+            return Boolean.FALSE;
+        }
+        @Override
+        public Boolean visitUnion(UnionType t, String p) {
+            return Boolean.FALSE;
+        }
+        @Override
+        public Boolean visitIntersection(IntersectionType t, String p) {
+            return Boolean.FALSE;
         }
     }
 
-    private List<Token> eliminateVariables1(String text) {
+    private Token.Type findMethod(TypeElement clazz, String name) {
+        if (!name.startsWith("this.")) {
+            return Token.Type.MISSING;
+        }
+        Optional<ExecutableElement> maybeMethod = clazz.getEnclosedElements().stream()
+                .filter(m -> TypeKind.EXECUTABLE.equals(m.asType().getKind()))
+                .map(m -> (ExecutableElement) m)
+                .filter(m -> m.getSimpleName().toString().equals(name.substring(5)))
+                .findFirst();
+        if (maybeMethod.isEmpty()) {
+             return Token.Type.MISSING;
+        } 
+        ElementVisitor ev = new ElementVisitor();
+        return maybeMethod.get().getReturnType().accept(ev, "net.java.html.react.React.Element") ?
+            Token.Type.CALL : Token.Type.VARIABLE;
+    }
+    
+    private List<Token> eliminateVariables1(TypeElement clazz, String text) {
         List<Token> result = new ArrayList<> ();
         for (;;) {
             int at = text.indexOf("{");
@@ -415,7 +506,8 @@ public class JavaSxProcessor extends AbstractProcessor {
                 if (call == -1) {
                     result.add(new Token(inside, Token.Type.VARIABLE));
                 } else {
-                    result.add(new Token(inside, Token.Type.CALL));
+                    Token.Type type = findMethod(clazz, inside.substring(0, call));
+                    result.add(new Token(inside, type));
                 }
 
                 if (text.length() > end + 1) {
@@ -478,7 +570,7 @@ public class JavaSxProcessor extends AbstractProcessor {
         processingEnv.getMessager().printMessage(Kind.ERROR, error, e);
     }
 
-    private void generateComponent(TypeElement key, String pkg, String name, Set<ExecutableElement> methods) throws IOException {
+    private void generateComponent(TypeElement key, String pkg, String name, Set<ExecutableElement> methods, Set<Element> expectedErrors) throws IOException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
         try {
@@ -547,7 +639,7 @@ public class JavaSxProcessor extends AbstractProcessor {
             w.append(prologue);
             StringBuilder sb = new StringBuilder();
             sb.append("    return ");
-            printNodes("    ", node.getChildNodes().item(0), replacements, sb);
+            printNodes(key, m, "    ", node.getChildNodes().item(0), replacements, sb, expectedErrors);
             sb.append(";\n");
             w.append(sb.toString());
             w.append("  }\n");

@@ -79,6 +79,19 @@ public class GenerateReactTest {
             "<div>{this.input(i, null)}</div>"
         )
         protected abstract React.Element divInput(int i, Runnable ch);
+        
+        @Render(
+            "<div><p>{this.getInt()}</p><p>{this.getString()}</p></div>"
+        )
+        protected abstract React.Element methods();
+        
+        protected int getInt() {
+            return 42;
+        }
+        
+        protected String getString() {
+            return "Good to see React4J working!";
+        }
     }
 
     @Test
@@ -148,9 +161,21 @@ public class GenerateReactTest {
         React.render(element, "mocknode");
 
         String text = innerHTML("mocknode");
-        System.out.println(text);
         assertTrue(text, text.startsWith("<div"));
         assertTrue(text, text.contains("input value=\"3\""));
+        assertTrue(text, text.endsWith("</div>"));
+    }
+    
+    @Test
+    public void methods() throws Exception {
+        React.Element element = new GenerateReactRender(null).methods();
+        assertNotNull("Element has been generated", element);
+        React.render(element, "mocknode");
+
+        String text = innerHTML("mocknode");
+        assertTrue(text, text.startsWith("<div"));
+        assertTrue(text, text.contains("Good to see React4J working!"));
+        assertTrue(text, text.contains("42"));
         assertTrue(text, text.endsWith("</div>"));
     }
 
