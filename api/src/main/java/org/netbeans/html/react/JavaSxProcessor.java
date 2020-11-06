@@ -416,61 +416,6 @@ public class JavaSxProcessor extends AbstractProcessor {
         }
     }
     
-    private class ElementVisitor implements TypeVisitor<Boolean, String> {
-        @Override
-        public Boolean visit(TypeMirror t, String p) {
-            return Boolean.FALSE;
-        }
-        @Override
-        public Boolean visitPrimitive(PrimitiveType t, String p) {
-            return Boolean.FALSE;
-        }
-        @Override
-        public Boolean visitNull(NullType t, String p) {
-            return Boolean.FALSE;
-        }
-        @Override
-        public Boolean visitArray(ArrayType t, String p) {
-            return Boolean.FALSE;
-        }
-        @Override
-        public Boolean visitDeclared(DeclaredType t, String p) {
-            return t.asElement().toString().equals(p);
-        }
-        @Override
-        public Boolean visitError(ErrorType t, String p) {
-            return Boolean.FALSE;
-        }
-        @Override
-        public Boolean visitTypeVariable(TypeVariable t, String p) {
-            return Boolean.FALSE;
-        }
-        @Override
-        public Boolean visitWildcard(WildcardType t, String p) {
-            return Boolean.FALSE;
-        }
-        @Override
-        public Boolean visitExecutable(ExecutableType t, String p) {
-            return Boolean.FALSE;
-        }
-        @Override
-        public Boolean visitNoType(NoType t, String p) {
-            return Boolean.FALSE;
-        }
-        @Override
-        public Boolean visitUnknown(TypeMirror t, String p) {
-            return Boolean.FALSE;
-        }
-        @Override
-        public Boolean visitUnion(UnionType t, String p) {
-            return Boolean.FALSE;
-        }
-        @Override
-        public Boolean visitIntersection(IntersectionType t, String p) {
-            return Boolean.FALSE;
-        }
-    }
-
     private Token.Type findMethod(TypeElement clazz, String name) {
         if (!name.startsWith("this.")) {
             return Token.Type.MISSING;
@@ -484,7 +429,7 @@ public class JavaSxProcessor extends AbstractProcessor {
              return Token.Type.MISSING;
         } 
         ElementVisitor ev = new ElementVisitor();
-        return maybeMethod.get().getReturnType().accept(ev, "net.java.html.react.React.Element") ?
+        return maybeMethod.get().getReturnType().toString().equals(ev, "net.java.html.react.React.Element") ?
             Token.Type.CALL : Token.Type.VARIABLE;
     }
     
