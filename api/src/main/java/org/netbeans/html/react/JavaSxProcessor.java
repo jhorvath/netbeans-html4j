@@ -318,7 +318,7 @@ public class JavaSxProcessor extends AbstractProcessor {
             text = text.replaceAll("\\\\", "\\\\");
             text = text.replaceAll("\\\n", "\\\\n");
 
-            List<Token> tokens = eliminateVariables1(clazz, text);
+            List<Token> tokens = eliminateVariables(clazz, text);
             StringBuffer tmp = new StringBuffer();
             boolean comma = false;
             for(Token token : tokens) {
@@ -375,8 +375,12 @@ public class JavaSxProcessor extends AbstractProcessor {
                     sb.append(", ");
                 }
                 Attr aNode = (Attr) attr.item(i);
-                String attrValue = eliminateVariables(aNode.getValue(), variables);
-                sb.append('"').append(aNode.getName()).append("\", ").append(attrValue);
+                Token token = eliminateVariables(clazz, aNode.getValue()).get(0);
+                if (token.type == Token.Type.CALL || token.type == Token.Type.VARIABLE) {
+                    sb.append('"').append(aNode.getName()).append("\", ").append(token.value);
+                } else {
+                    sb.append('"').append(aNode.getName()).append("\", \"").append(token.value).append('"');
+                }
             }
             sb.append(")");
         } else {
@@ -428,12 +432,11 @@ public class JavaSxProcessor extends AbstractProcessor {
         if (maybeMethod.isEmpty()) {
              return Token.Type.MISSING;
         } 
-        ElementVisitor ev = new ElementVisitor();
-        return maybeMethod.get().getReturnType().toString().equals(ev, "net.java.html.react.React.Element") ?
+        return maybeMethod.get().getReturnType().toString().equals("net.java.html.react.React.Element") ?
             Token.Type.CALL : Token.Type.VARIABLE;
     }
     
-    private List<Token> eliminateVariables1(TypeElement clazz, String text) {
+    private List<Token> eliminateVariables(TypeElement clazz, String text) {
         List<Token> result = new ArrayList<> ();
         for (;;) {
             int at = text.indexOf("{");
@@ -463,37 +466,6 @@ public class JavaSxProcessor extends AbstractProcessor {
             }
         }
         return result;
-    }
-
-    private String eliminateVariables(String text, Set<String> variables) {
-        int cntVariables = 0;
-        for (String v : variables) {
-            for (;;) {
-                int at = text.indexOf("{" + v + "}");
-                if (at == -1) {
-                    break;
-                }
-                final String before = text.substring(0, at);
-                final String after = text.substring(at + v.length() + 2);
-                if (cntVariables == 0 && before.isEmpty() && after.isEmpty()) {
-                    text = v;
-                    cntVariables = 1;
-                } else {
-                    text = before + "\" + " + v + "+ \"" + after;
-                    cntVariables = 10;
-                }
-            }
-        }
-        switch (cntVariables) {
-            case 1:
-                // single variables
-                return text;
-            case 0:
-                // just text
-            default:
-                // many variables
-                return '\"' + text + '\"';
-        }
     }
 
     private void emitError(Element e, Set<Element> expectedErrors, String error) {
