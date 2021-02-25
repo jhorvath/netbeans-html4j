@@ -1,9 +1,11 @@
 buildscript {
     repositories {
         mavenCentral()
+        mavenLocal()
     }
     dependencies {
         classpath "org.netbeans.html:html4j-maven-plugin:1.7"
+        classpath "org.frgaal:compiler-gradle-plugin:15.0.0"
     }
 }
 
@@ -14,6 +16,7 @@ plugins {
 
 apply plugin: 'java'
 apply plugin: 'html4j'
+apply plugin: 'org.frgaal.compiler'
 
 java {
    disableAutoTargetJvm()
@@ -38,7 +41,7 @@ allprojects {
 }
 
 targetCompatibility = '1.8'
-sourceCompatibility = '1.8'
+sourceCompatibility = '15'
 
 dependencies {
     compile project(":api")
