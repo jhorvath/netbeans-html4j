@@ -146,9 +146,12 @@ public class JavaSxProcessor extends AbstractProcessor {
                     case CHAR:
                     case SHORT:
                     case INT:
+                    case LONG:
+                        sb.append("0");
+                        break;
                     case FLOAT:
                     case DOUBLE:
-                        sb.append("0");
+                        sb.append("0.0");
                         break;
                     default:
                         sb.append("null");
